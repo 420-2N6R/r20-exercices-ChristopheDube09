@@ -6,22 +6,76 @@
 
 class Terrain:
     def __init__(self,nom,couleur,est_a_vendre,prix) -> None:
-        self.nom = nom
-        self.couleur = couleur
-        self.prix = prix
+        self._nom = nom
+        self._couleur = couleur
+        self._prix = prix
         
     def __str__(self) -> str:
-        return self.nom
+        return self._nom
 
+    @property   
+    def nom(self):  
+        return self._nom
+    @property   
+    def couleur(self):  
+        return self._couleur
+    @property   
+    def prix(self):  
+        return self._prix   
+
+    @nom.setter 
+    def nom(self):  
+        print("Impossible de changer cette attribut")   
+    @couleur.setter 
+    def couleur(self):  
+        print("Impossible de changer cette attribut")   
+    @prix.setter    
+    def prix(self, nv_prix):    
+        try:    
+            if nv_prix >= self._prix:   
+                self._prix = nv_prix    
+        except TypeError:   
+            print("La nouvelle valeur doit être supérieure à l'ancienne")
 class Banque:
     def __init__(self,montant_cash,list_terrains) -> None:
-        self.montant_cash = montant_cash
-        self.list_terrains = list_terrains
+        self._montant_cash = montant_cash
+        self.list_terrains = list_terrains  
+
+    @property   
+    def montant_cash(self): 
+        return self._montant_cash   
+    @property   
+    def montant_parc_immobilier(self):  
+        total = 0   
+        for terrain in self.list_terrains:    
+            total += terrain.prix   
+        return total    
+    
+    @montant_cash.setter    
+    def montant_cash(self, nv_montant_cash): 
+        try:
+            if type(nv_montant_cash) == float:    
+                self._montant_cash = nv_montant_cash    
+        except TypeError:   
+            print("Le montant n'est pas un float")
 
 class Joueur:
     def __init__(self,montant_cash,list_terrains) -> None:
-        self.montant_cash = montant_cash
-        self.list_terrains = list_terrains
+        self._montant_cash = montant_cash
+        self.list_terrains = list_terrains  
+        
+    @property   
+    def montant_cash(self): 
+        return self._montant_cash   
+    
+    @montant_cash.setter    
+    def montant_cash(self, nv_montant_cash): 
+        try:
+            if type(nv_montant_cash) == float:    
+                self._montant_cash = nv_montant_cash    
+        except TypeError:   
+            print("Le montant n'est pas un float")
+        
 
     def acheter(self,proprietaire,terrain:Terrain): 
         if self.montant_cash >= terrain.prix:
@@ -100,4 +154,6 @@ for terrain in joueur2.list_terrains:
 print('infos de la banque')
 print(banque.montant_cash)
 for terrain in banque.list_terrains:
-    print(terrain)   
+    print(terrain)      
+
+print("Le parc immobilier vaut présentement " + str(banque.montant_parc_immobilier))

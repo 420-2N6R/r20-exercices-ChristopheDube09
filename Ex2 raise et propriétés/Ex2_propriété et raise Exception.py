@@ -19,26 +19,50 @@ from math import pi
 class Sphere:
     def __init__(self, pRayon) -> None:
         self._rayon = pRayon
-    
+        if not isinstance(pRayon, (int, float)):
+            raise TypeError("Le rayon doit être un entier ou un flottant.")
+        if pRayon <= 0:
+            raise ValueError("Le rayon doit être supérieur à 0.")
+        self._rayon = pRayon
     @property
-    def rayon(self) :
-        pass
+    def rayon(self,value) :
+        if not isinstance(value, (int, float)):
+            raise TypeError("Le rayon doit être un entier ou un flottant.")
+        if value <= 0:
+            raise ValueError("Le rayon doit être supérieur à 0.")
+        
+        self._rayon = value
 
     @property
     def circonference(self):
-        pass # la circonférence d'une sphère est égal à " 2 * pi * rayon "
+        return 2 * pi * self._rayon
 
     @property
     def volume(self):
-        pass # le volume d'une sphère est égale à " 4/3 * pi * (rayon ** 3) "
+        return (4/3) * pi * (self._rayon ** 3)
 
     @property
     def aire(self):
-        pass
+        return 4 * pi * (self._rayon ** 2)
 
 
 if __name__ == "__main__" :
-    print(pi) #voyez que vous pouvez utilisé la constante pi
+    print(pi)  # Vous pouvez utiliser la constante pi
 
-    #Testez votre code, voir l'énoncé
+    # Testez votre code
+    try:
+        sph = Sphere("texte")
+    except TypeError as e:
+        print(e)  # Affiche : Le rayon doit être un entier ou un flottant.
+
+    try:
+        sph = Sphere(-2)
+    except ValueError as e:
+        print(e)  # Affiche : Le rayon doit être supérieur à 0.
+
+    sph = Sphere(5)  # Crée une sphère avec un rayon de 5
+    print("Rayon:", sph.rayon)
+    print("Circonférence:", sph.circonference)
+    print("Volume:", sph.volume)
+    print("Aire:", sph.aire)
 
